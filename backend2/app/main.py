@@ -14,9 +14,6 @@ from app.service.casdoor import (
 )
 
 
-# 移除FastAPIKeycloak依赖，直接使用python-keycloak
-
-
 LOG_FORMAT = "{levelname} [{filename}:{lineno}]:"
 logger = Logger(__name__, log_path="/logs/api.log")
 logger.update_format(LOG_FORMAT)
