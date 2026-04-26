@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 
-from app.service.keycloak import authenticate_user, logout, refresh_token
+from app.service.casdoor import authenticate_user, logout, refresh_token
 
 router = APIRouter()
 
