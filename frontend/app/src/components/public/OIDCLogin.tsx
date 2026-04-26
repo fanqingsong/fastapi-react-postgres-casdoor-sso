@@ -34,7 +34,7 @@ const OIDCLogin: React.FC<OIDCLoginProps> = ({ onLoginSuccess, onLoginError }) =
         disabled={isLoading}
         className="btn btn-primary btn-lg w-100"
       >
-        {isLoading ? '正在跳转...' : '使用Keycloak登录'}
+        {isLoading ? '正在跳转...' : 'Login with SSO (Casdoor)'}
       </button>
     </div>
   );
