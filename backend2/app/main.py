@@ -9,7 +9,7 @@ import secrets
 from urllib.parse import urlencode
 
 from app.router import auth, targets
-from app.service.keycloak import (
+from app.service.casdoor import (
     verify_token, verify_permission, get_user_info, refresh_token as oidc_refresh_token, logout as oidc_logout
 )
 
@@ -45,17 +45,20 @@ app.add_middleware(
 
 @app.get("/api2/auth/oidc/login")
 async def oidc_login():
-    """重定向到Keycloak登录页面"""
+    """重定向到Casdoor登录页面"""
     # 生成随机state参数
     state = secrets.token_urlsafe(32)
     # 构建OIDC授权URL
-    auth_url = f"{os.environ.get('KEYCLOAK_SERVER_URL_CLIENT', 'http://localhost:8080/')}realms/{os.environ.get('KEYCLOAK_REALM_NAME', 'master')}/protocol/openid-connect/auth"
+    casdoor_endpoint = os.environ.get('CASDOOR_ENDPOINT', 'http://localhost:8000')
+    casdoor_organization = os.environ.get('CASDOOR_ORGANIZATION', 'org')
+    auth_url = f"{casdoor_endpoint}/login/oauth/authorize"
     params = {
-        'client_id': os.environ.get('KEYCLOAK_CLIENT_ID', 'fastapi-client'),
+        'client_id': os.environ.get('CASDOOR_CLIENT_ID', 'fastapi-client'),
         'response_type': 'code',
         'scope': 'openid email profile',
         'redirect_uri': 'http://localhost:81/oidc2/callback',
-        'state': state
+        'state': state,
+        'organization': casdoor_organization
     }
     auth_url_with_params = f"{auth_url}?{urlencode(params)}"
     return {"auth_url": auth_url_with_params, "state": state}
@@ -64,14 +67,10 @@ async def oidc_login():
 async def oidc_callback(code: str, state: str = None):
     """处理OIDC回调"""
     try:
-        from app.service.keycloak import get_keycloak_openid
-        keycloak_openid = get_keycloak_openid()
-        token_data = keycloak_openid.token(
-            grant_type='authorization_code',
-            code=code,
-            redirect_uri='http://localhost:81/oidc2/callback'
-        )
-        user_info = keycloak_openid.userinfo(token_data['access_token'])
+        from app.service.casdoor import get_casdoor_openid
+        casdoor_openid = get_casdoor_openid()
+        token_data = casdoor_openid.get_oauth_token(code)
+        user_info = get_user_info(token_data['access_token'])
         return {
             "access_token": token_data['access_token'],
             "refresh_token": token_data.get('refresh_token'),
