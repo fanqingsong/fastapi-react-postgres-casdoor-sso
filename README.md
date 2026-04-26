@@ -1,4 +1,4 @@
-# fastapi-react-postgres-keycloak
+# fastapi-react-postgres-casdoor-sso
 
 To launch all the services just execute:
 
@@ -13,29 +13,29 @@ docker-compose down && docker-compose build && docker-compose up
 
 
 
-## Keycloak installation
+## Casdoor installation
 
 Create a `.env` file based on the `.env.example` file.
 
 > :warning: Don't forget to put values for the password fields
 
-Next step is to launch keycloak:
+Next step is to launch Casdoor:
 
 ```bash
-docker-compose up -d keycloak
+docker-compose up -d casdoor
 ```
 
-To initialize Keycloak with a client and a user, you can use the script in the keycloak folder. Find out more about the API calls made in the [Keycloak doc](https://www.keycloak.org/docs-api/5.0/rest-api/index.html).
+To initialize Casdoor with an organization and application, you can use the script in the casdoor folder. Find out more about the API calls made in the [Casdoor documentation](https://casdoor.org/docs/intro).
 
-> You can change the script to have different values for the client name, username, password...
+> You can change the script to have different values for the organization name, application name, username, password...
 
 ```bash
-bash keycloak/init.sh
+bash casdoor/init.sh
 ```
 
-In the output of the script you will find the client secret. Copy it and put it the `.env`.
+In the output of the script you will find the client secret. Copy it and put it in the `.env`.
 
-You can then access the keycloak console and login with the admin credentials: http://localhost:8080
+You can then access the Casdoor console and login with the admin credentials: http://localhost:8000
 
 ## Running database migrations using [Alembic](https://alembic.sqlalchemy.org).
 

@@ -4,22 +4,22 @@
 
 ## 1. 密码登录（原有功能）
 - 用户名/密码直接登录
-- 使用Keycloak的Resource Owner Password Credentials流程
+- 使用Casdoor的Resource Owner Password Credentials流程
 
 ## 2. OIDC SSO登录（新增功能）
 - 点击"Login with SSO (OIDC)"按钮
-- 重定向到Keycloak登录页面
+- 重定向到Casdoor登录页面
 - 支持企业SSO、社交登录等
 
 ## 后端配置
 
 ### 环境变量
 ```bash
-KEYCLOAK_SERVER_URL=http://keycloak:8080
-KEYCLOAK_CLIENT_ID=fastapi-client
-KEYCLOAK_CLIENT_SECRET_KEY=your-client-secret
-KEYCLOAK_ADMIN_CLIENT_SECRET=your-admin-secret
-KEYCLOAK_REALM_NAME=master
+CASDOOR_ENDPOINT=http://casdoor:8000
+CASDOOR_CLIENT_ID=fastapi-client
+CASDOOR_CLIENT_SECRET=your-client-secret
+CASDOOR_ORGANIZATION=admin
+CASDOOR_APPLICATION=app-example
 ```
 
 ### 新增API端点
@@ -39,8 +39,8 @@ KEYCLOAK_REALM_NAME=master
 
 ## 使用方法
 
-1. **配置Keycloak客户端**
-   - 在Keycloak中创建客户端
+1. **配置Casdoor应用程序**
+   - 在Casdoor中创建应用程序
    - 设置Valid Redirect URIs为 `http://localhost/oidc/callback`
    - 启用Authorization Code flow
 
@@ -60,20 +60,20 @@ KEYCLOAK_REALM_NAME=master
 
 如需修改，请更新以下文件：
 - `backend/app/main.py` - 更新 `callback_uri` 参数
-- Keycloak客户端配置 - 更新Valid Redirect URIs
+- Casdoor应用程序配置 - 更新Valid Redirect URIs
 
 ## 注意事项
 
-1. 确保Keycloak服务正常运行
+1. 确保Casdoor服务正常运行
 2. 检查网络连接和DNS解析
-3. 验证客户端配置和密钥
-4. 回调URL必须与Keycloak配置匹配
+3. 验证应用程序配置和密钥
+4. 回调URL必须与Casdoor配置匹配
 
 ## 故障排除
 
 1. **OIDC登录失败**
-   - 检查Keycloak服务状态
-   - 验证客户端配置
+   - 检查Casdoor服务状态
+   - 验证应用程序配置
    - 查看后端日志
 
 2. **回调处理失败**
