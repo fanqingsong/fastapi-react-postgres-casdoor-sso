@@ -11,7 +11,7 @@ def test_casdoor_sdk_initialization():
         'CASDOOR_ORGANIZATION': 'test-org',
         'CASDOOR_APPLICATION': 'test-app'
     }):
-        from app.service.casdoor import get_casdoor_client
-        client = get_casdoor_client()
-        assert client is not None
-        assert client.endpoint == 'http://localhost:8000'
+        from app.service.casdoor import get_casdoor_sdk
+        sdk = get_casdoor_sdk()
+        assert sdk is not None
+        assert sdk.endpoint == 'http://localhost:8000'
