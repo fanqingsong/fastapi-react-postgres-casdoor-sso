@@ -1,6 +1,6 @@
 fastapi==0.70.1
 uvicorn==0.22.0
-python-keycloak==0.24.0
+casdoor==0.2.0
 requests==2.30.0
 urllib3==1.26.7
 python-multipart==0.0.5
